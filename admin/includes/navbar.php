@@ -1,5 +1,4 @@
-<?php include'./cart.php'; ?>
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <span class="navbar-brand mb-0 h1"><strong>Tevos</strong></span>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,20 +30,10 @@
           if(!isset($_SESSION['user_id'])){
         ?>
             <li class="nav-item">
-              <a class="nav-link" href="./signup.php"><button class="btn btn-primary btn-sm">Signup</button></a>
+              <a class="nav-link" href="./register.php"><button class="btn btn-primary">Register</button></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="./login.php"><button class="btn btn-primary btn-sm">Login</button></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span class="fa-stack" data-count=<?php echo(get_cart_count()) ?>>
-                  <i class="fas fa-shopping-cart fa-stack-2x text-dark"></i>
-                </span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./sellerregister.php"><button class="btn btn-outline-primary btn-sm">Register as seller <i class="far fa-star"></i></button></a>
+              <a class="nav-link" href="./login.php"><button class="btn btn-primary">Login</button></a>
             </li>
         <?php 
           }else{

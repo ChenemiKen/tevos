@@ -1,0 +1,13 @@
+Hello Vishwas! a few instructions to guide your installation, you"ll probably not need them though as it is just straight forward.
+
+To start with, extract the ziped file and place in the htdocs folder of your xampp.
+start up xampp Apache and mysql then
+in your browser go to localhost/tevos
+
+The file, install.php contains the code to create the database and required tables, ensure that the $username and $password
+are set correctly. 
+To setup the database run the file by going to the address 'localhost/tevos/install.php' in your browser. 
+his will setup the database, and display a success message if it is successfull or an error messsage if there is an error.
+
+also, the file 'dbconnection.php' helps to coonect the application to the database, ensure that the $username and $password
+are set correctly too.

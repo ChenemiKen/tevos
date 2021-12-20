@@ -16,7 +16,7 @@
 </head>
 <body>
     <main role="main" class="container">
-        <?php include'includes/navbar.php'; ?>
+        <?php include'views/includes/navbar.php'; ?>
 
         <hr class=" col-8 offset-2 mb-3">
         <h5 class="text-center"><strong>Trending products</strong></h5>
@@ -36,6 +36,7 @@
                             <div class="card-body text-center">
                                 <h5><strong>Denim blue</strong></h5>
                                 <h6 class="orange"><strong>$300</strong></h6>
+                                <button class="btn btn-dark btn-sm">Add to cart <i class="fas fa-shopping-cart lightorange"></i></button>
                             </div>
                             <!--Card content-->
                         </div>
@@ -53,6 +54,7 @@
                             <div class="card-body text-center">
                                 <h5><strong>Macbook M1 Pro</strong></h5>
                                 <h6 class="orange"><strong>$900</strong></h6>
+                                <button class="btn btn-dark btn-sm">Add to cart <i class="fas fa-shopping-cart lightorange"></i></button>
                             </div>
                             <!--Card content-->
                         </div>
@@ -70,6 +72,7 @@
                             <div class="card-body text-center">
                                 <h5><strong>Smart watch</strong></h5>
                                 <h6 class="orange"><strong>$400</strong></h6>
+                                <button class="btn btn-dark btn-sm">Add to cart <i class="fas fa-shopping-cart lightorange"></i></button>
                             </div>
                             <!--Card content-->
                         </div>
@@ -87,6 +90,7 @@
                             <div class="card-body text-center">
                                 <h5><strong>Beats Headphone</strong></h5>
                                 <h6 class="orange"><strong>$350</strong></h6>
+                                <button class="btn btn-dark btn-sm">Add to cart <i class="fas fa-shopping-cart lightorange"></i></button>
                             </div>
                             <!--Card content-->
                         </div>
