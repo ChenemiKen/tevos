@@ -1,4 +1,12 @@
-<?php include'./cart.php'; ?>
+<?php
+  function get_cart_count(){
+    if(isset($_SESSION['cart'])&& is_array($_SESSION['cart'])){
+        $cart_count=count($_SESSION['cart']);
+        return $cart_count;
+    }
+    return 0;
+  }
+?>
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
   <div class="container-fluid">
     <span class="navbar-brand mb-0 h1"><strong>Tevos</strong></span>
@@ -37,7 +45,7 @@
               <a class="nav-link" href="./login.php"><button class="btn btn-primary btn-sm">Login</button></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="./cart.php">
                 <span class="fa-stack" data-count=<?php echo(get_cart_count()) ?>>
                   <i class="fas fa-shopping-cart fa-stack-2x text-dark"></i>
                 </span>
