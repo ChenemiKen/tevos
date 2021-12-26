@@ -4,7 +4,6 @@
     include('dbconnection.php');
     $sql = "SELECT * FROM products";
     $products= $conn->query($sql);
-
 ?>
 <?php 
   $title = 'Products'; 

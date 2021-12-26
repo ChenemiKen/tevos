@@ -42,30 +42,34 @@ function add_to_cart($product_id){
 
 if(isset($_POST['placeorder'])){
     if(isset($_SESSION['user_id'])){
-        // exit();
+        header("Location: checkout.php");
     }else{
         header("Location: login.php?ref=cart.php");
         exit();
     }
 }
-
+if(isset($_POST['remove'])){
+    $prodt_id = $_POST['prodt_id'];
+    unset($_SESSION['cart'][$prodt_id]);
+    // header("Location: cart.php");
+}
 // Check the session variable for products in cart
 $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : array();
 $products_in_cart = array_keys($cart);
 $products = array();
 $subtotal = 0.00;
 // If there are products in cart
-if ($products_in_cart) {
+// if ($products_in_cart) {
     // There are products in the cart so we need to select those products from the database
     // Products in cart array to question mark string array, we need the SQL statement to include IN (?,?,?,...etc)
-    $array_to_question_marks = implode(',', array_fill(0, count($cart), '?'));
+    // $array_to_question_marks = implode(',', array_fill(0, count($cart), '?'));
     $products_in_cart = implode("','",$products_in_cart);
-    $stmt = "SELECT * FROM products WHERE id IN ('" . $products_in_cart . "')";
+    $stmt = "SELECT * FROM products WHERE id IN ('$products_in_cart')ORDER BY field(id, '...$products_in_cart')";
     // // We only need the array keys, not the values, the keys are the id's of the products
     $products = $conn->query($stmt);
     // // Fetch the products from the database and return the result as an Array
     
-}
+// }
 ?>
 <?php 
   $title = 'Products'; 
@@ -103,7 +107,10 @@ if ($products_in_cart) {
                         <td>
                             <a href="index.php?page=product&id=<?=$product['id']?>"><?=$product['productname']?></a>
                             <br>
-                            <a href="index.php?page=cart&remove=<?=$product['id']?>" class="remove small text-secondary">Remove</a>
+                            <form action="" method="POST">
+                                <input type="hidden" name="prodt_id" value="<?=$product['id']?>">
+                                <input type="submit" name="remove" value="Remove" class="remove small text-secondary">
+                            </form>
                         </td>
                         <td class="price">&dollar;<?=$product['price']?></td>
                         <td class="quantity">
@@ -115,7 +122,7 @@ if ($products_in_cart) {
                             $subtotal += (float)$product['price'] * (int)$cart[$product['id']];
                         } 
                     ?>
-                    <?php endif; ?>
+                    
                 </tbody>
             </table>
             <div class="subtotal">
@@ -126,9 +133,9 @@ if ($products_in_cart) {
                 <input type="submit" value="Update" name="update">
                 <input type="submit" value="Place Order" name="placeorder">
             </div>
+            <?php endif; ?>
         </form>
     </div>
-
 </main>
 <?php 
 

@@ -44,7 +44,11 @@
             $_SESSION['user_email']= $user['email'];
             $_SESSION['user']= true;
             $_SESSION['flash_message'] = array("category"=>"success","message"=>"Logged in!");;
-            header('Location: index.php');
+            if(isset($_GET['ref'])){
+              header('Location: '.$_GET['ref']);
+            }else{
+              header('Location: index.php');
+            }
             exit();
           }else{
             $message=array("category"=>"danger","message"=>"Wrong password");

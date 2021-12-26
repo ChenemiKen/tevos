@@ -66,6 +66,9 @@ main .cart table .remove {
 	color: #777777;
 	font-size: 12px;
 	padding-top: 3px;
+    border: 0;
+    background: none;
+    padding: 0;
 }
 main .cart table .remove:hover {
 	text-decoration: underline;
