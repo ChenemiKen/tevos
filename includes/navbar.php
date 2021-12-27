@@ -35,15 +35,23 @@
         ?>
       </ul>
       <ul class="navbar-nav">
-        <?php
-          if(!isset($_SESSION['user_id'])){
-        ?>
+        <?php if(!isset($_SESSION['user_id'])): ?>
             <li class="nav-item">
               <a class="nav-link" href="./signup.php"><button class="btn btn-primary btn-sm">Signup</button></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="./login.php"><button class="btn btn-primary btn-sm">Login</button></a>
             </li>
+            
+        <?php else: ?>
+            <span class="navbar-text me-5">
+              <strong class="mb-n1"><?php echo $_SESSION['user_names'];?></strong><br>
+              <small><?php echo $_SESSION['user_email'];?></small>
+            </span>
+            <li class="nav-item">
+              <a class="nav-link" href="./addproduct.php"><button class="btn btn-orange btn-sm">Add product</button></a>
+            </li>    
+        <?php endif; ?>
             <li class="nav-item">
               <a class="nav-link" href="./cart.php">
                 <span class="fa-stack" data-count=<?php echo(get_cart_count()) ?>>
@@ -54,22 +62,11 @@
             <li class="nav-item">
               <a class="nav-link" href="./sellerregister.php"><button class="btn btn-outline-primary btn-sm">Register as seller <i class="far fa-star"></i></button></a>
             </li>
-        <?php 
-          }else{
-        ?>
-            <span class="navbar-text me-5">
-              <strong class="mb-n1"><?php echo $_SESSION['user_names'];?></strong><br>
-              <small><?php echo $_SESSION['user_email'];?></small>
-            </span>
+        <?php if(isset($_SESSION['user_id'])): ?>
             <li class="nav-item">
-              <a class="nav-link" href="./addproduct.php"><button class="btn btn-orange">Add product</button></a>
+              <a class="nav-link" href="./logout.php"><button class="btn btn-secondary btn-sm">Logout</button></a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./logout.php"><button class="btn btn-secondary">Logout</button></a>
-            </li>
-        <?php 
-          }
-        ?>
+        <?php endif; ?>
       </ul>
     </div>
   </div>
