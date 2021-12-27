@@ -93,39 +93,48 @@
 <?php
   function update_user_cart($conn){
     if(isset($_SESSION['user_id'])){
-        // fetch user cart
-        $user_id = $_SESSION['user_id'];
-        $user_cart_id = null;
-        $sql = "SELECT * FROM carts WHERE `user_id`='$user_id'";
-        $user_cart = $conn->query($sql);
-        if($user_cart->num_rows>0){
-            $user_cart = $user_cart->fetch_assoc();
-            $user_cart_id = $user_cart['id'];
-            $sql = "SELECT * FROM cart_items WHERE cart_id='$user_cart_id'";
-            $cart_items = $conn->query($sql);
-            if($cart_items->num_rows>0){
-                $db_cart = array();
-                while($item = $cart_items->fetch_assoc()){
-                    $db_cart[$item['product_id']] = $item['quantity']; 
-                }
-                var_dump($db_cart);
-                if(isset($_SESSION['cart'])){
-                  echo "--------";
-                  var_dump($_SESSION['cart']);
-                  $new_items = array_diff_key($_SESSION['cart'],$db_cart);
-                  echo "---------";
-                  // echo "a new song";
-                  var_dump($new_items);
-                  foreach($new_items as $item_key=>$item_value){
-                      $sql = "INSERT INTO cart_items(product_id,cart_id,quantity)VALUES('$item_key','$user_cart_id','$item_value')";
-                      $conn->query($sql);
-                  }
-                }
-                foreach($db_cart as $item_key=>$item_value){
-                  $_SESSION['cart'][$item_key] = $item_value; 
-                }
+      // fetch user cart
+      $user_id = $_SESSION['user_id'];
+      $user_cart_id = null;
+      $sql = "SELECT * FROM carts WHERE `user_id`='$user_id'";
+      $user_cart = $conn->query($sql);
+      if($user_cart->num_rows>0){
+          $user_cart = $user_cart->fetch_assoc();
+          $user_cart_id = $user_cart['id'];
+          $_SESSION['user_cart_id'] = $user_cart_id;
+          $sql = "SELECT * FROM cart_items WHERE cart_id='$user_cart_id'";
+          $cart_items = $conn->query($sql);
+          if($cart_items->num_rows>0){
+            $db_cart = array();
+            while($item = $cart_items->fetch_assoc()){
+                $db_cart[$item['product_id']] = $item['quantity']; 
             }
-        }  
+            if(isset($_SESSION['cart'])){
+              var_dump($_SESSION['cart']);
+              $new_items = array_diff_key($_SESSION['cart'],$db_cart);
+              foreach($new_items as $item_key=>$item_value){
+                  $sql = "INSERT INTO cart_items(product_id,cart_id,quantity)VALUES('$item_key','$user_cart_id','$item_value')";
+                  $conn->query($sql);
+              }
+            }
+            foreach($db_cart as $item_key=>$item_value){
+              $_SESSION['cart'][$item_key] = $item_value; 
+            }
+          }
+      }else{
+        $session_id = session_id();
+        $sql = "INSERT INTO carts(`user_id`,`session_id`)VALUES('$user_id','$session_id')";
+        if($conn->query($sql) == TRUE){
+          $user_cart_id = $conn->insert_id;
+          $_SESSION['user_cart_id'] = $user_cart_id;
+          if(isset($_SESSION['cart'])){
+            foreach($_SESSION['cart'] as $item_key=>$item_value){
+              $sql = "INSERT INTO cart_items(product_id,cart_id,quantity)VALUES('$item_key','$user_cart_id','$item_value')";
+              $conn->query($sql);
+            }
+          }
+        }
+      }  
     }
   }
 ?>

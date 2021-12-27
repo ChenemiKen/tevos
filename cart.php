@@ -41,6 +41,11 @@ if(isset($_POST['remove'])){
     $prodt_id = $_POST['prodt_id'];
     unset($_SESSION['cart'][$prodt_id]);
     // header("Location: cart.php");
+    if(isset($_SESSION['user_id']) AND isset($_SESSION['user_cart_id'])){
+        $user_cart_id = $_SESSION['user_cart_id'];
+        $sql = "DELETE FROM cart_items WHERE product_id = '$prodt_id' AND cart_id = '$user_cart_id'";
+        $conn->query($sql);
+    }
 }
 // Check the session variable for products in cart
 $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : array();
@@ -129,48 +134,32 @@ $subtotal = 0.00;
 <?php 
 function add_to_cart($product_id, $conn){
     if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
+        $sql = null;
         if (array_key_exists($product_id, $_SESSION['cart'])) {
             // Product exists in cart so just update the quanity
             $_SESSION['cart'][$product_id] +=1;
+            // persist in db if user is signed in
+            if(isset($_SESSION['user_id']) AND isset($_SESSION['user_cart_id'])){
+                $user_id = $_SESSION['user_id'];
+                $user_cart_id = $_SESSION['user_cart_id'];
+                $sql = "UPDATE cart_items SET quantity = quantity+1 WHERE product_id = $product_id AND cart_id = $user_cart_id";
+                $conn-> query($sql);
+            }
         } else {
             // Product is not in cart so add it
             $_SESSION['cart'][$product_id] = 1;
+            // persist in db if user is signed in
+            if(isset($_SESSION['user_id']) AND isset($_SESSION['user_cart_id'])){
+                $user_id = $_SESSION['user_id'];
+                $user_cart_id = $_SESSION['user_cart_id'];
+                $sql = "INSERT INTO cart_items(product_id, cart_id, quantity)VALUES('$product_id','$user_cart_id',1)";
+                $conn-> query($sql);
+            }
+            
         }
     } else {
         // There are no products in cart, this will add the first product to cart
         $_SESSION['cart'] = array($product_id => 1);
-    }
-    // update_user_cart($conn);
-}
-
-function update_user_cart($conn){
-    if(isset($_SESSION['user_id'])){
-        // fetch user cart
-        $user_id = $_SESSION['user_id'];
-        $user_cart_id = null;
-        $sql = "SELECT FROM carts WHERE user_id='$user_id'";
-        $user_cart = $conn->query($sql);
-        if($user_cart->num_rows>0){
-            $user_cart = $user_cart->fetch_assoc();
-            $user_cart_id = $user_cart['id'];
-            $sql = "SELECT * FROM cart_items WHERE cart_id='$user_cart_id'";
-            $cart_items = $conn->query($sql);
-            if($cart_items->num_rows>0){
-                $db_cart = array();
-                while($item = $cart_items->fetch_assoc()){
-                    $db_cart[$item['id']] = $item['quantity']; 
-                }
-                $new_items = array_diff_key($db_cart, $_SESSION['cart']);
-                foreach($new_items as $item){
-                    $sql = "INSERT INTO cart_items(product_id,quantity)VALUES('key($item)','$item')";
-                }
-                foreach($db_cart as $item){
-                    $_SESSION['cart'][key($item)] = $item; 
-                }
-                
-            }
-            
-        }  
     }
 }
 ?>
