@@ -36,6 +36,18 @@ if(isset($_POST['placeorder'])){
     }
 }
 
+// update item quantities in cart
+if(isset($_POST['update'])){
+    $user_cart_id = $_SESSION['user_cart_id'];
+    foreach($_POST as $item_key=>$item_quantity){
+        if(is_numeric($item_key) AND is_numeric($item_quantity)){
+            $_SESSION['cart'][$item_key] = $item_quantity;
+            $sql = "UPDATE cart_items SET quantity = '$item_quantity' WHERE cart_id = '$user_cart_id' AND product_id = '$item_key'";
+            $conn->query($sql);
+        }
+    }
+}
+
 // remove item from cart
 if(isset($_POST['remove'])){
     $prodt_id = $_POST['prodt_id'];
@@ -87,36 +99,33 @@ $subtotal = 0.00;
                 </thead>
                 <tbody>
                     <?php if (!$products->num_rows>0): ?>
-                    <tr>
-                        <td colspan="5" style="text-align:center;">You have no products added in your Shopping Cart</td>
-                    </tr>
+                        <tr>
+                            <td colspan="5" style="text-align:center;">You have no products added in your Shopping Cart</td>
+                        </tr>
                     <?php else: ?>
-                    <?php while($product = $products->fetch_assoc()){ ?>
-                    <tr>
-                        <td class="img">
-                            <a href="index.php?page=product&id=<?=$product['id']?>">
-                                <img src="./media/uploads/<?=$product['picture']?>" width="50" height="50" alt="<?=$product['productname']?>">
-                            </a>
-                        </td>
-                        <td>
-                            <a href="index.php?page=product&id=<?=$product['id']?>"><?=$product['productname']?></a>
-                            <br>
-                            <form action="" method="POST">
-                                <input type="hidden" name="prodt_id" value="<?=$product['id']?>">
-                                <input type="submit" name="remove" value="Remove" class="remove small text-secondary">
-                            </form>
-                        </td>
-                        <td class="price">&dollar;<?=$product['price']?></td>
-                        <td class="quantity">
-                            <input type="number" name="quantity-<?=$product['id']?>" value="<?=$cart[$product['id']]?>" min="1" max="1000" placeholder="Quantity" required>
-                        </td>
-                        <td class="price">&dollar;<?=$product['price'] * $cart[$product['id']]?></td>
-                    </tr>
-                    <?php
-                            $subtotal += (float)$product['price'] * (int)$cart[$product['id']];
-                        } 
-                    ?>
-                    
+                        <?php while($product = $products->fetch_assoc()): ?>
+                            <tr>
+                                <td class="img">
+                                    <a href="index.php?page=product&id=<?=$product['id']?>">
+                                        <img src="./media/uploads/<?=$product['picture']?>" width="50" height="50" alt="<?=$product['productname']?>">
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="index.php?page=product&id=<?=$product['id']?>"><?=$product['productname']?></a>
+                                    <br>
+                                    <form action="" method="POST">
+                                        <input type="hidden" name="prodt_id" value="<?=$product['id']?>">
+                                        <input type="submit" name="remove" value="Remove" class="remove small text-secondary">
+                                    </form>
+                                </td>
+                                <td class="price">&dollar;<?=$product['price']?></td>
+                                <td class="quantity">
+                                    <input type="number" name="<?=$product['id']?>" value="<?=$cart[$product['id']]?>" min="1" max="1000" placeholder="Quantity" required>
+                                </td>
+                                <td class="price">&dollar;<?=$product['price'] * $cart[$product['id']]?></td>
+                            </tr>
+                            <?php $subtotal += (float)$product['price'] * (int)$cart[$product['id']]; ?>
+                        <?php endwhile ?>
                 </tbody>
             </table>
             <div class="subtotal">
