@@ -72,12 +72,36 @@
       <input type="email" name="email" class="form-control mb-4" placeholder="Email" aria-label="Email" required>
       <div class="row">
         <div class="col">
-          <input type="password" name="password1" class="form-control mb-4" placeholder="Password" aria-label="Password" required>
+          <div class="input-group mb-4">
+            <input type="password" name="password1" class="form-control border-end-0" placeholder="Password" aria-label="Password" required>
+            <button id="password1eyebtn" class="btn btn-outline-secondary border-start-0 border">
+              <i id="password1eye" class="fas fa-eye"></i>
+            </button>
+          </div>
         </div>
         <div class="col">
-          <input type="password" name="password2" class="form-control mb-4" placeholder="Confirm password" aria-label="Confirm Password" required>
+          <div class="input-group mb-4">
+            <input type="password" name="password2" class="form-control border-end-0" placeholder="Confirm password" aria-label="Confirm Password" required>
+            <button id="password2eyebtn" class="btn btn-outline-secondary border-start-0 border">
+              <i class="fas fa-eye" id="password2eye"></i>
+            </button>
+          </div>
         </div>
       </div>
+      <!-- password generator -->
+        <div class="mb-4 text-center">
+            <button id="gen-pass-btn" class="btn btn-secondary btn-sm">Generate Password <div id="pass-loader" class="loader d-none ms-1"></div></button>
+            <div class="d-inline input-group">
+              <input type="text" hidden name="gen-pass" id="autogen-pass-field" class="w-50 frm-input border-end-0">
+              <button hidden id="passwordgeneyebtn" class="btn btn-outline-secondary btn-sm border-start-0 border ">
+                <i class="fas fa-eye" id="passwordgeneye"></i>
+              </button>
+            </div>
+            <button id="use-btn" hidden disabled class="btn btn-success btn-sm">Use</button>
+            <button id="cancel-btn" hidden disabled class="btn btn-secondary btn-sm"><strong>X</strong></button>
+            <small id="autogen-failed" class="text-danger" hidden>failed! Try again</small>
+        </div>
+      <!--  -->
       <div class="text-center mb-4">
         <button type="submit" name="submit" class="btn btn-primary">Submit</button>
       </div>
