@@ -110,5 +110,6 @@
       </div>
     </form>
 </main>
+<script src="./static/js/script.js"></script>
 <?php include'includes/footer.php'; ?>
 

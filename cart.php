@@ -130,8 +130,24 @@ $subtotal = 0.00;
             </table>
             <div class="subtotal">
                 <span class="text">Subtotal</span>
-                <span class="price">&dollar;<?=$subtotal?></span>
+                <span class="price" id="total-price">
+                    <span id="total-price-cur" name="USD">&dollar;</span>
+                    <span id="total-price-value"><?=$subtotal?></span>
+                </span>
+                <div class="dropdown mt-2 me-4">
+                    <button class="btn btn-outline-orange btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Currency
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item currency" name="USD">&dollar;</a></li>
+                        <li><a class="dropdown-item currency" name="EUR">&euro;</a></li>
+                        <li><a class="dropdown-item currency" name="GBP">&pound;</a></li>
+                        <li><a class="dropdown-item currency" name="GHS">&#8373;</a></li>
+                        <li><a class="dropdown-item currency" name="INR">&#8377;</a></li>
+                    </ul>
+                </div>
             </div>
+            
             <div class="buttons">
                 <input type="submit" value="Update" name="update">
                 <input type="submit" value="Place Order" name="placeorder">
@@ -140,6 +156,8 @@ $subtotal = 0.00;
         </form>
     </div>
 </main>
+<script src="./static/js/cur_convert.js"></script>
+<?php include'./includes/footer.php'; ?>
 <?php 
 function add_to_cart($product_id, $conn){
     if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
