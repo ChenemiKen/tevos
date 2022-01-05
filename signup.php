@@ -14,30 +14,36 @@
       $password1 = $conn -> real_escape_string($_POST['password1']);
       $password2 = $conn -> real_escape_string($_POST['password2']);
 
-      if(!($password1 === $password2)){
-        $message=array("category"=>"danger","message"=>"Passwords do not match");
-      }
-      else{
-        $passwordHash = password_hash($password1, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO users (firstname,lastname,email,`password`) VALUES('$first_name','$last_name','$email','$passwordHash')";
-        if ($conn->query($sql) === TRUE) {
-          $user_id = $conn->insert_id;
-          $message=array("category"=>"success","message"=>"Registration successfull");
-          $_SESSION['user_id']= $user_id;
-          $_SESSION['user_names']=$first_name." ".$last_name;
-          $_SESSION['user_email']= $email;
-          $_SESSION['flash_message']= array("category"=>"success","message"=>"Signup Succesfull. You are Logged in!");
-          header('Location: index.php');
-          exit();
-        } else {
-          if(substr($conn->error,0,15)==="Duplicate entry" && substr($conn->error,-7)==="'email'"){
-            $message=array("category"=>"danger","message"=>"Email already registered");
-          }else{
-            echo "Registration failed: " . $sql . "<br>" . $conn->error;
-            $message=array("category"=>"danger","message"=>"Registration failed: " . $sql . "<br>" . $conn->error);
+      // validate email address
+      $verifyEmail = verifyEmail($email);
+      if($verifyEmail=='valid'){
+        // check password
+        if(!($password1 === $password2)){
+          $message=array("category"=>"danger","message"=>"Passwords do not match");
+        }else{
+          $passwordHash = password_hash($password1, PASSWORD_DEFAULT);
+          $sql = "INSERT INTO users (firstname,lastname,email,`password`) VALUES('$first_name','$last_name','$email','$passwordHash')";
+          if ($conn->query($sql) === TRUE) {
+            $user_id = $conn->insert_id;
+            $message=array("category"=>"success","message"=>"Registration successfull");
+            $_SESSION['user_id']= $user_id;
+            $_SESSION['user_names']=$first_name." ".$last_name;
+            $_SESSION['user_email']= $email;
+            $_SESSION['flash_message']= array("category"=>"success","message"=>"Signup Succesfull. You are Logged in!");
+            header('Location: index.php');
+            exit();
+          } else {
+            if(substr($conn->error,0,15)==="Duplicate entry" && substr($conn->error,-7)==="'email'"){
+              $message=array("category"=>"danger","message"=>"Email already registered");
+            }else{
+              echo "Registration failed: " . $sql . "<br>" . $conn->error;
+              $message=array("category"=>"danger","message"=>"Registration failed: " . $sql . "<br>" . $conn->error);
+            }
           }
+          
         }
-        
+      }else{
+        $message=array("category"=>"danger","message"=>$verifyEmail);
       }
     }
     $conn->close();
@@ -113,3 +119,45 @@
 <script src="./static/js/script.js"></script>
 <?php include'includes/footer.php'; ?>
 
+<?php
+// function to check the validity of email address using the email verification api
+function verifyEmail($email){
+  $curl = curl_init();
+  
+  curl_setopt_array($curl, [
+    CURLOPT_URL => "https://email-validator15.p.rapidapi.com/v1/validation/single/".$email."?result_type=CHECK_IF_EMAIL_EXIST",
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_ENCODING => "",
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 30,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => "GET",
+    CURLOPT_HTTPHEADER => [
+      "x-rapidapi-host: email-validator15.p.rapidapi.com",
+      "x-rapidapi-key: 23383a841fmsh07b5c90d4e5e4f8p12379djsn25c7dd3eeb36"
+    ],
+  ]);
+  
+  $response = json_decode(curl_exec($curl), true);
+  $err = curl_error($curl);
+  
+  curl_close($curl);
+  
+  if ($err) {
+    return "cURL Error #:" . $err;
+  } else {
+    $res = $response['check_if_email_exist'];
+    if($res['is_reachable'] !='safe'){
+      return "Email address is not reachable. Please enter a valid email";
+    }
+    if(!$res['smtp']['can_connect_smtp']){
+      return "Unable to connect email address via smtp";
+    }
+    if($res['smtp']['is_disabled']){
+      return "email address is disabled";
+    }
+    return "valid";
+  }
+}
+?>
