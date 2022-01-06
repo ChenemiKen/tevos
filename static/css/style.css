@@ -54,6 +54,10 @@ body {
 .ht-brands{
     margin-top: 0px;
 }
+
+.prod:nth-child(n+2){
+    margin-left: 80px;
+}
 .loader {
     border: 2px solid #f3f3f3; /* Light grey */
     border-top: 2px solid #313122; /* Blue */

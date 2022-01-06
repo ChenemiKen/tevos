@@ -116,7 +116,7 @@
       </div>
     </form>
 </main>
-<script src="./static/js/script.js"></script>
+<script src="./static/js/password_gen.js"></script>
 <?php include'includes/footer.php'; ?>
 
 <?php
