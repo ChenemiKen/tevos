@@ -46,7 +46,7 @@
               <a class="nav-link" href="./addproduct.php"><button class="btn btn-orange">Add product</button></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="./logout.php"><button class="btn btn-secondary">Logout</button></a>
+              <a class="nav-link" href="../logout.php"><button class="btn btn-secondary">Logout</button></a>
             </li>
         <?php 
           }

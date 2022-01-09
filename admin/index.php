@@ -3,7 +3,7 @@
   $message=[];
   if(isset($_POST['submit'])){
       // database connection
-      include('dbconnection.php');
+      include('../dbconnection.php');
       
       // get the form data /escaping special characters
       $email = $conn -> real_escape_string($_POST['email']);
@@ -13,35 +13,30 @@
       $user= $conn->query($sql);
       if ($user->num_rows >0){
         $user = $user->fetch_assoc();
-        if(password_verify($password, $user['password'])){
-          $_SESSION['user_id']= $user['id'];
-          $_SESSION['user_names']= $user['firstname']." ".$user['lastname'];
-          $_SESSION['user_email']= $user['email'];
-          $_SESSION['flash_message'] = array("category"=>"success","message"=>"Logged in!");;
-          header('Location: index.php');
-          exit();
+        if($user['is_admin'] == true){
+          if(password_verify($password, $user['password'])){
+            $_SESSION['user_id']= $user['id'];
+            $_SESSION['user_names']= $user['firstname']." ".$user['lastname'];
+            $_SESSION['user_email']= $user['email'];
+            $_SESSION['flash_message'] = array("category"=>"success","message"=>"Logged in!");;
+            header('Location: dashboard.php');
+            exit();
+          }else{
+            $message=array("category"=>"danger","message"=>"Wrong password");
+          } 
         }else{
-          $message=array("category"=>"danger","message"=>"Wrong password");
-        } 
+          $message=array("category"=>"danger","message"=>"Access denied.");
+        }
       } else {
         $message=array("category"=>"danger","message"=>"Incorrect email");
       }
       $conn->close();
   }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/bootstrap-5.0.2-dist/css/bootstrap.min.css">
-    <script src="../static/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../static/bootstrap-5.0.2-dist/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <title>Tevos::Admin</title>
-</head>
-<body>
+<?php
+$title = "Admin";
+include('includes/header.php');
+?>
     <main role="main" class="container">
         <?php include'includes/navbar.php'; ?>
 
