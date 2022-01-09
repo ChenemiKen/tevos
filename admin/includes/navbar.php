@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark pb-0">
   <div class="container-fluid">
     <span class="navbar-brand mb-0 h1"><strong>Tevos</strong></span>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,7 +43,10 @@
               <small><?php echo $_SESSION['user_email'];?></small>
             </span>
             <li class="nav-item">
-              <a class="nav-link" href="./addproduct.php"><button class="btn btn-orange">Add product</button></a>
+              <a class="nav-link text-center" href="./addproduct.php">
+                <i class="fas fa-user fa-lg"></i>
+                <h6>Admin</h6>
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="../logout.php"><button class="btn btn-secondary">Logout</button></a>
