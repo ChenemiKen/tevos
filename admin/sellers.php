@@ -45,6 +45,14 @@ include('includes/header.php');
                     </div>
                 </a>
             </div>
+            <div class="sidenav-item my-4">
+                <a href="cart_items.php">
+                    <div>
+                        <i class="fas fa-calendar-alt"></i>
+                        <h6>Carts</h6>
+                    </div>
+                </a>
+            </div>
         </div>
         <div id="workspace">
             <h6 class="text-center"><strong>Tevos Sellers</strong></h6>
