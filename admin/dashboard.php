@@ -42,7 +42,7 @@ include('includes/header.php');
             <div class="sidenav-item my-4">
                 <a href="products.php">
                     <div>
-                        <i class="fas fa-cookie"></i>
+                        <i class="fas fa-archive"></i>
                         <h6>Products</h6>
                     </div>
                 </a>

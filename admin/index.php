@@ -1,36 +1,41 @@
 <?php
   session_start();
   $message=[];
-  if(isset($_POST['submit'])){
-      // database connection
-      include('../dbconnection.php');
-      
-      // get the form data /escaping special characters
-      $email = $conn -> real_escape_string($_POST['email']);
-      $password = $conn -> real_escape_string($_POST['password']);
-
-      $sql = "SELECT * FROM users WHERE email='$email'";
-      $user= $conn->query($sql);
-      if ($user->num_rows >0){
-        $user = $user->fetch_assoc();
-        if($user['is_admin'] == true){
-          if(password_verify($password, $user['password'])){
-            $_SESSION['user_id']= $user['id'];
-            $_SESSION['user_names']= $user['firstname']." ".$user['lastname'];
-            $_SESSION['user_email']= $user['email'];
-            $_SESSION['flash_message'] = array("category"=>"success","message"=>"Logged in!");;
-            header('Location: dashboard.php');
-            exit();
+  if(isset($_SESSION['user_id']) && isset($_SESSION['admin'])){
+    header('Location: dashboard.php');
+  }else{
+    if(isset($_POST['submit'])){
+        // database connection
+        include('../dbconnection.php');
+        
+        // get the form data /escaping special characters
+        $email = $conn -> real_escape_string($_POST['email']);
+        $password = $conn -> real_escape_string($_POST['password']);
+  
+        $sql = "SELECT * FROM users WHERE email='$email'";
+        $user= $conn->query($sql);
+        if ($user->num_rows >0){
+          $user = $user->fetch_assoc();
+          if($user['is_admin'] == true){
+            if(password_verify($password, $user['password'])){
+              $_SESSION['user_id']= $user['id'];
+              $_SESSION['user_names']= $user['firstname']." ".$user['lastname'];
+              $_SESSION['user_email']= $user['email'];
+              $_SESSION['admin']= true;
+              $_SESSION['flash_message'] = array("category"=>"success","message"=>"Logged in!");;
+              header('Location: dashboard.php');
+              exit();
+            }else{
+              $message=array("category"=>"danger","message"=>"Wrong password");
+            } 
           }else{
-            $message=array("category"=>"danger","message"=>"Wrong password");
-          } 
-        }else{
-          $message=array("category"=>"danger","message"=>"Access denied.");
+            $message=array("category"=>"danger","message"=>"Access denied.");
+          }
+        } else {
+          $message=array("category"=>"danger","message"=>"Incorrect email");
         }
-      } else {
-        $message=array("category"=>"danger","message"=>"Incorrect email");
-      }
-      $conn->close();
+        $conn->close();
+    }
   }
 ?>
 <?php
@@ -60,6 +65,6 @@ include('includes/header.php');
         </div>
         </form>
     </main>
-    <?php include'../includes/footer.php'; ?>
+    <?php include'includes/footer.php'; ?>
 </body>
 </html>

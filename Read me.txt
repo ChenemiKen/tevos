@@ -1,13 +1,24 @@
-Hello Vishwas! a few instructions to guide your installation, you"ll probably not need them though as it is just straight forward.
+Hello Vishwas! a few instructions to guide your installation, It's straight forward
 
 To start with, extract the ziped file and place in the htdocs folder of your xampp.
 start up xampp Apache and mysql then
 in your browser go to localhost/tevos
 
-The file, install.php contains the code to create the database and required tables, ensure that the $username and $password
-are set correctly. 
-To setup the database run the file by going to the address 'localhost/tevos/install.php' in your browser. 
-his will setup the database, and display a success message if it is successfull or an error messsage if there is an error.
+This time, instead of doing automated database installation like we did before, I have exported the database
+and added it so that you can just import it into your phpmydamin. the file is named 'tevos.sql'
+so Open localhost/phpmydamin on your browser
+create a new table called 'tevos'
+then click import 
+select the 'tevos.sql' file
+make sure the Character set is utf-8
+and the format is 'SQL'
+then click go
+that will setup your database for you with required data already populated.
 
 also, the file 'dbconnection.php' helps to coonect the application to the database, ensure that the $username and $password
 are set correctly too.
+
+to access the admin page
+go to localhost/tevos/admin
+
+Enjoy!!

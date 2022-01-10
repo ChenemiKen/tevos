@@ -7,19 +7,19 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav m-auto">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="./index.php">Home</a>
+          <a class="nav-link active" aria-current="page" href="../index.php">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./trending.php">Trending</a>
+          <a class="nav-link" href="../trending.php">Trending</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./products.php">Products</a>
+          <a class="nav-link" href="../products.php">Products</a>
         </li>
         <?php
           if(isset($_SESSION['user_id'])){
         ?>
             <li class="nav-item">
-              <a class="nav-link" href="./myproducts.php">My Products</a>
+              <a class="nav-link" href="../myproducts.php">My Products</a>
             </li>
         <?php 
           }
@@ -27,13 +27,13 @@
       </ul>
       <ul class="navbar-nav">
         <?php
-          if(!isset($_SESSION['user_id'])){
+          if(!isset($_SESSION['user_id']) || !isset($_SESSION['admin'])){
         ?>
             <li class="nav-item">
-              <a class="nav-link" href="./register.php"><button class="btn btn-primary">Register</button></a>
+              <a class="nav-link" href="../register.php"><button class="btn btn-primary">Register</button></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="./login.php"><button class="btn btn-primary">Login</button></a>
+              <a class="nav-link" href="../login.php"><button class="btn btn-primary">Login</button></a>
             </li>
         <?php 
           }else{

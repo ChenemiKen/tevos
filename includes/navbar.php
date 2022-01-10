@@ -25,7 +25,7 @@
           <a class="nav-link" href="./products.php">Products</a>
         </li>
         <?php
-          if(isset($_SESSION['user_id'])){
+          if(isset($_SESSION['user_id']) && isset($_SESSION['seller'])){
         ?>
             <li class="nav-item">
               <a class="nav-link" href="./myproducts.php">My Products</a>
@@ -48,9 +48,15 @@
               <strong class="mb-n1"><?php echo $_SESSION['user_names'];?></strong><br>
               <small><?php echo $_SESSION['user_email'];?></small>
             </span>
-            <li class="nav-item">
-              <a class="nav-link" href="./addproduct.php"><button class="btn btn-orange btn-sm">Add product</button></a>
-            </li>    
+            <?php
+              if(isset($_SESSION['user_id']) && isset($_SESSION['seller'])){
+            ?>
+              <li class="nav-item">
+                <a class="nav-link" href="./addproduct.php"><button class="btn btn-orange btn-sm">Add product</button></a>
+              </li>  
+            <?php 
+              }
+            ?>  
         <?php endif; ?>
             <li class="nav-item">
               <a class="nav-link" href="./cart.php">
