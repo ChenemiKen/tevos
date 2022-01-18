@@ -18,6 +18,24 @@ that will setup your database for you with required data already populated.
 also, the file 'dbconnection.php' helps to coonect the application to the database, ensure that the $username and $password
 are set correctly too.
 
+The API endpoints are as follows
+there are four endpoints
+1) [POST] localhost/tevos/api.getkey.php
+this is the endpoint that a user uses to generate their API key, it only accepts POST requests, 
+the body should have the email address and password of the user.
+
+
+2) [GET] localhost/tevos/api.productinventory.php?apikey=1d52d1dd5e7f9a6232c4
+this is the endpoint the retrieves all the products in the database. it accepts any kind of request. Before a user can use this endpoint they must have used the getkey endpoint to get an api key first.
+the apikey parameter is the required parameter.
+
+3) [GET] localhost/tevos/api.trendingproducts.php?apikey=1d52d1dd5e7f9a6232c4
+this is the endpoint that retrieves the trending products. it accepts any kind of request. Before a user can use this endpoint they must have used the getkey endpoint to get an api key first.
+the apikey parameter is the required parameter.
+
+4) [GET] localhost/tevos/api.postalcodes.php?apikey=1d52d1dd5e7f9a6232c4&city=Homagama
+this endpoint retrieves the postal code for a specified city. The user must provide a valid API key and city as parameters as shown above
+
 to access the admin page
 go to localhost/tevos/admin
 

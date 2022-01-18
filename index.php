@@ -1,5 +1,8 @@
 <?php
     session_start();
+    include('dbconnection.php');
+    $sql = "SELECT * FROM products ORDER BY RAND() LIMIT 4";
+    $products= $conn->query($sql);
     $title = 'Ecommerce web application'; 
 ?>
 <?php include'includes/header.php'; ?>
@@ -14,18 +17,36 @@
                 <img src="media/images/Smart_Watch.jpg" class="d-block w-20" alt="...">
                 <h5 class="text-center mt-4"><strong>Smart Watch</strong></h>
                 <h6 class="text-center orange"><strong>$300</strong></h6>
-                <div class="text-center"><button class="btn btn-dark btn-sm">Add to cart <i class="fas fa-shopping-cart lightorange"></i></button></div>
+                <div class="text-center">
+                    <form action="cart.php" method="post">
+                        <input type="hidden" name="product_id" value=1>
+                        <button type="submit" name=add-to-cart class="btn btn-dark btn-sm">Add to cart <i class="fas fa-shopping-cart lightorange"></i></button>
+                    </form>
+                </div>
             </div>
             <div class="carousel-item">
                 <img src="media/images/Mavic_Digi_i.jpg" class="d-block w-20" alt="...">
                 <h5 class="text-center mt-4"><strong>Mavic Digi Drone</strong></h5>
                 <h6 class="text-center orange"><strong>$900</strong></h6>
-                <div class="text-center"><button class="btn btn-dark btn-sm">Add to cart <i class="fas fa-shopping-cart lightorange"></i></button></div>            </div>
+                <div class="text-center">
+                    <form action="cart.php" method="post">
+                        <input type="hidden" name="product_id" value=13>
+                        <button type="submit" name=add-to-cart class="btn btn-dark btn-sm">Add to cart <i class="fas fa-shopping-cart lightorange"></i></button>
+                    </form>
+                </div>          
+            </div>
             <div class="carousel-item">
                 <img src="media/images/Beats_Headphone.jpg" class="d-block w-20" alt="...">
                 <h5 class="text-center mt-4"><strong>Beats Headphones</strong></h5>
                 <h6 class="text-center orange"><strong>$500</strong></h6>
-                <div class="text-center"><button class="btn btn-dark btn-sm">Add to cart <i class="fas fa-shopping-cart lightorange"></i></button></div>            </div>
+                <div class="text-center">
+                    <form action="cart.php" method="post">
+                        <input type="hidden" name="product_id" value=14>
+                        <button type="submit" name=add-to-cart class="btn btn-dark btn-sm">Add to cart <i class="fas fa-shopping-cart lightorange"></i></button>
+                    </form>
+                </div>
+            </div>            
+            </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -44,76 +65,31 @@
         <!--Grid row-->
         <div class="ms-lg-5 ps-lg-5">
             <!--Grid row-->
-            <div class="row">
+            <div class="row prod-row">
                 <!--Grid column-->
-                <div class="col-lg-2 col-md-6 mb-5">
-                    <!--Card-->
-                        <div class="card">
-                        <!--Card image-->
-                        <img src="media/images/15.jpg" alt="" >
-                        <!--Card image-->
-                        <!--Card content-->
-                        <div class="card-body text-center">
-                            <h5><strong>Denim jacket</strong></h5>
-                            <h6 class="orange"><strong>$400</strong></h6>
-                            <button class="btn btn-dark btn-sm">Add to cart <i class="fas fa-shopping-cart lightorange"></i></button>
+                <?php if($products->num_rows>0): ?>
+                    <?php while($product = $products->fetch_assoc()): ?>
+                    <div class="col-lg-2 col-md-6 prod mb-5">
+                        <!--Card-->
+                            <div class="card">
+                            <!--Card image-->
+                            <img src="<?php echo 'media/uploads/'.$product['picture'] ?>" alt="" >
+                            <!--Card image-->
+                            <!--Card content-->
+                            <div class="card-body text-center">
+                                <h5><strong><?php echo $product['productname'] ?></strong></h5>
+                                <h6 class="orange"><strong><?php echo('$'.$product['price']) ?></strong></h6>
+                                <form action="cart.php" method="post">
+                                    <input type="hidden" name="product_id" value="<?=$product['id']?>">
+                                    <button type="submit" name=add-to-cart class="btn btn-dark btn-sm">Add to cart <i class="fas fa-shopping-cart lightorange"></i></button>
+                                </form>
+                            </div>
+                            <!--Card content-->
                         </div>
-                        <!--Card content-->
+                        <!--Card-->
                     </div>
-                    <!--Card-->
-                </div>
-                <!--Grid column-->
-                <!--Grid column-->
-                <div class="col-lg-2 col-md-5 offset-lg-1 mb-5">
-                    <!--Card-->
-                    <div class="card">
-                        <!--Card image-->
-                        <img src="media/images/Beats_Headphone.jpg" alt="" >
-                        <!--Card image-->
-                        <!--Card content-->
-                        <div class="card-body text-center">
-                            <h5><strong>Beats Headphone</strong></h5>
-                            <h6 class="orange"><strong>$300</strong></h6>
-                            <button class="btn btn-dark btn-sm">Add to cart <i class="fas fa-shopping-cart lightorange"></i></button>                        </div>
-                        <!--Card content-->
-                    </div>
-                    <!--Card-->
-                </div>
-                <!--Grid column-->
-                <!--Grid column-->
-                <div class="col-lg-2 col-md-5 offset-lg-1 mb-5">
-                    <!--Card-->
-                    <div class="card">
-                        <!--Card image-->
-                        <img src="media/images/m1_macbook.jfif" alt="" >
-                        <!--Card image-->
-                        <!--Card content-->
-                        <div class="card-body text-center">
-                            <h5><strong>Mackbook pro M1</strong></h5>
-                            <h6 class="orange"><strong>$900</strong></h6>
-                            <button class="btn btn-dark btn-sm">Add to cart <i class="fas fa-shopping-cart lightorange"></i></button>                        </div>
-                        <!--Card content-->
-                    </div>
-                    <!--Card-->
-                </div>
-                <!--Grid column-->
-                <!--Grid column-->
-                <div class="col-lg-2 col-md-5 offset-lg-1 mb-5">
-                    <!--Card-->
-                    <div class="card">
-                        <!--Card image-->
-                        <img src="media/images/Smart_Watch.jpg" alt="" >
-                        <!--Card image-->
-                        <!--Card content-->
-                        <div class="card-body text-center">
-                            <h5><strong>Smart Watch</strong></h5>
-                            <h6 class="orange"><strong>$400</strong></h6>
-                            <button class="btn btn-dark btn-sm">Add to cart <i class="fas fa-shopping-cart lightorange"></i></button>                        </div>
-                        <!--Card content-->
-                    </div>
-                    <!--Card-->
-                </div>
-                <!--Grid column-->
+                    <?php endwhile; ?>
+                <?php endif; ?>
             </div>
             <!--Grid row-->
         </div>
