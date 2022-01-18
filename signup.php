@@ -96,16 +96,13 @@
       </div>
       <!-- password generator -->
         <div class="mb-4 text-center">
-            <button id="gen-pass-btn" class="btn btn-secondary btn-sm">Generate Password <div id="pass-loader" class="loader d-none ms-1"></div></button>
+            <button id="gen-pass-btn" class="btn btn-secondary btn-sm">Generate Password</button>
             <div class="d-inline input-group">
               <input type="text" hidden name="gen-pass" id="autogen-pass-field" class="w-50 frm-input border-end-0">
               <button hidden id="passwordgeneyebtn" class="btn btn-outline-secondary btn-sm border-start-0 border ">
                 <i class="fas fa-eye" id="passwordgeneye"></i>
               </button>
             </div>
-            <button id="use-btn" hidden disabled class="btn btn-success btn-sm">Use</button>
-            <button id="cancel-btn" hidden disabled class="btn btn-secondary btn-sm"><strong>X</strong></button>
-            <small id="autogen-failed" class="text-danger" hidden>failed! Try again</small>
         </div>
       <!--  -->
       <div class="text-center mb-4">
