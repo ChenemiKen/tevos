@@ -139,11 +139,12 @@ $subtotal = 0.00;
                         Currency
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item currency" name="USD">&dollar;</a></li>
-                        <li><a class="dropdown-item currency" name="EUR">&euro;</a></li>
-                        <li><a class="dropdown-item currency" name="GBP">&pound;</a></li>
-                        <li><a class="dropdown-item currency" name="GHS">&#8373;</a></li>
-                        <li><a class="dropdown-item currency" name="INR">&#8377;</a></li>
+                        <li><a class="dropdown-item currency" name="USD">USD</a></li>
+                        <li><a class="dropdown-item currency" name="EUR">EUR</a></li>
+                        <li><a class="dropdown-item currency" name="GBP">GBP</a></li>
+                        <li><a class="dropdown-item currency" name="GHS">GHS</a></li>
+                        <li><a class="dropdown-item currency" name="INR">INR</a></li>
+                        <li><a class="dropdown-item currency" name="AUD">AUD</a></li>
                     </ul>
                 </div>
             </div>

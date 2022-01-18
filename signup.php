@@ -75,7 +75,10 @@
           <input type="text" name="lastname" class="form-control mb-4" placeholder="Last name" aria-label="Last name" required>
         </div>
       </div>
-      <input type="email" name="email" class="form-control mb-4" placeholder="Email" aria-label="Email" required>
+      <div class="form-group mb-4">
+        <input type="email" name="email" class="form-control " placeholder="Email" aria-label="Email" required>
+        <small id="emailHelp" class="form-text text-muted">Please enter a valid email address.</small>
+      </div>
       <div class="row">
         <div class="col">
           <div class="input-group mb-4">
@@ -106,13 +109,14 @@
         </div>
       <!--  -->
       <div class="text-center mb-4">
-        <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" name="submit" class="btn btn-primary" disabled>Submit</button>
       </div>
       <div class="text-center">
         <small>Already have an account? <a href="login.php" class="orange">Login</a></small>
       </div>
     </form>
 </main>
+<script src="./static/js/email_check.js"></script>
 <script src="./static/js/password_gen.js"></script>
 <?php include'includes/footer.php'; ?>
 
