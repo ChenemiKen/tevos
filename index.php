@@ -2,10 +2,12 @@
     session_start();
     include('dbconnection.php');
     $sql = "SELECT * FROM products ORDER BY RAND() LIMIT 4";
-    $products= $conn->query($sql);
-    $title = 'Ecommerce web application'; 
+    $products= $conn->query($sql); 
 ?>
-<?php include'includes/header.php'; ?>
+<?php 
+    $title = 'Ecommerce web application';
+    include'includes/header.php'; 
+?>
 <main role="main" class="container">
     <?php include'includes/navbar.php'; ?>
     <?php include'includes/flashMessage.php'; ?>
@@ -46,7 +48,6 @@
                     </form>
                 </div>
             </div>            
-            </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>

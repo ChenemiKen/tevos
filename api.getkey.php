@@ -13,35 +13,35 @@ if ($requestMethod == 'POST') {
         $sql = "SELECT * FROM users WHERE email='$email'";
         $user= $conn->query($sql);
         if ($user->num_rows >0){
-        $user = $user->fetch_assoc();
-        // verify seller password
-        if(password_verify($password, $user['password'])){
-            http_response_code(200);
-            $response = [];
-            $response['status'] = 200;
-            $response['email'] = $user['email'];
-            if(isset($user['api_key'])){
-                // if the user already has an api key return it
-                $response['api_key'] = $user['api_key'];
-                $response = json_encode($response);
-                echo($response);
+            $user = $user->fetch_assoc();
+            // verify seller password
+            if(password_verify($password, $user['password'])){
+                http_response_code(200);
+                $response = [];
+                $response['status'] = 200;
+                $response['email'] = $user['email'];
+                if(isset($user['api_key'])){
+                    // if the user already has an api key return it
+                    $response['api_key'] = $user['api_key'];
+                    $response = json_encode($response);
+                    echo($response);
+                }else{
+                    // if the user doesnt have a key, generate a new key and save it
+                    $new_key = bin2hex(random_bytes(10));
+                    $sql = "UPDATE users SET api_key='$new_key' WHERE email='$email'";
+                    $update= $conn->query($sql);
+                    $response['api_key'] = $new_key;
+                    $response = json_encode($response);
+                    echo($response);
+                }
             }else{
-                // if the user doesnt have a key, generate a new key and save it
-                $new_key = bin2hex(random_bytes(10));
-                $sql = "UPDATE users SET api_key='$new_key' WHERE email='$email'";
-                $update= $conn->query($sql);
-                $response['api_key'] = $new_key;
+                http_response_code(400);
+                $response = [];
+                $response['status'] = 400;
+                $response['error'] = "Incorrect email or password";
                 $response = json_encode($response);
-                echo($response);
+                echo($response); 
             }
-        }else{
-            http_response_code(400);
-            $response = [];
-            $response['status'] = 400;
-            $response['error'] = "Incorrect email or password";
-            $response = json_encode($response);
-            echo($response); 
-        }
         }else {
             http_response_code(400);
             $response = [];

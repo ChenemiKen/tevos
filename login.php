@@ -19,6 +19,7 @@
           $_SESSION['user_id']= $seller['id'];
           $_SESSION['user_names']= $seller['firstname']." ".$seller['lastname'];
           $_SESSION['user_email']= $seller['email'];
+          $_SESSION['user_api_key']= $user[''];
           $_SESSION['seller']= true;
           $_SESSION['flash_message'] = array("category"=>"success","message"=>"Logged in!");
           update_user_cart($conn);
@@ -42,6 +43,7 @@
             $_SESSION['user_id']= $user['id'];
             $_SESSION['user_names']= $user['firstname']." ".$user['lastname'];
             $_SESSION['user_email']= $user['email'];
+            $_SESSION['user_api_key']= $user['api_key'];
             $_SESSION['user']= true;
             $_SESSION['flash_message'] = array("category"=>"success","message"=>"Logged in!");
             update_user_cart($conn);
